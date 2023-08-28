@@ -1,0 +1,186 @@
+﻿@model TestManagement.Models.User
+
+@{
+    ViewBag.Title = "Result";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Result</h2>
+
+<label>Name :</label>
+<label>@ViewBag.StudentName</label>
+<br />
+<label>Gender :</label>
+<label>@ViewBag.Gender</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<label>Age :</label>
+<label>@ViewBag.Age</label>
+<br />
+<br />
+<label>एकूण गडबडांक : </label>
+<label>@ViewBag.Gadabadank</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<label>व्यक्तित्वांक : </label>
+<label>@ViewBag.vyaktitwank</label>
+<table class="table table-hover" id="Vitthal" style="width:30%;margin-left:0px;margin-top:10px;">
+    <thead>
+        <tr style="background-color: #435ebe; color: white;">
+            <th style="width:30px;">
+                <label>एकूण गुण</label>
+            </th>
+            <th style="width:20px">
+                <label>सात्विक</label>
+            </th>
+            <th style="width:20px">
+                <label>राजस</label>
+            </th>
+            <th style="width:20px">
+                <label>तामस</label>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <label>प्रमाण</label>
+            </td>
+            <td>
+                <label>@ViewBag.SatwikTotal</label>
+            </td>
+            <td>
+                <label>@ViewBag.RajasTotal</label>
+            </td>
+            <td>
+                <label>@ViewBag.TamasTotal</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>टक्केवारी</label>
+            </td>
+            <td>
+                <label>@ViewBag.SwatikPraman</label>
+            </td>
+            <td>
+                <label>@ViewBag.RajasPraman</label>
+            </td>
+            <td>
+                <label>@ViewBag.TamasPraman</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label></label>
+            </td>
+            <td>
+                <label>@ViewBag.SatwikPercentage</label>
+            </td>
+            <td>
+                <label>@ViewBag.RajasPercentage</label>
+            </td>
+            <td>
+                <label>@ViewBag.TamasPercentage</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>गडबडांक</label>
+            </td>
+            <td>
+                <label>@ViewBag.SatwikG</label>
+            </td>
+            <td>
+                <label>@ViewBag.RajasG</label>
+            </td>
+            <td>
+                <label>@ViewBag.TamasG</label>
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+
+
+<div id="chartContainer" style="height: 300px; width: 50%;"></div>
+<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+
+<script>
+    window.onload = function () {
+
+        var chart = new CanvasJS.Chart("chartContainer", {
+            theme: "light2", // "light1", "light2", "dark1", "dark2"
+            animationEnabled: true,
+            title: {
+                text: ""
+            },
+            axisY: {
+                title: "",
+                prefix: ""
+            },
+            data: [{
+                labels: ['सत्व', 'राजस', 'तामस'],
+                type: "rangeColumn",
+                dataPoints: [
+                    { label: "सत्व", y: [2.3, 3.75] },
+                    { label: "सत्व", y: [0, @ViewBag.SwatikPraman] },
+                    { label: "राजस" , y: [1.5,2.5] },
+                    { label: "राजस", y: [0, @ViewBag.RajasPraman] },
+                    { label: "तामस" , y: [0.7,1.3] },
+                    { label: "तामस", y: [0, @ViewBag.TamasPraman] },
+                   
+                ]
+            }]
+        });
+        chart.render();
+
+    }
+</script>
+
+<div class="row">
+    <div style="width: 60%; margin-left: 40%; margin-top: -650px;">
+        <canvas id="myChart"></canvas>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+      const ctx = document.getElementById('myChart');
+      new Chart(ctx, {
+          type: 'bar',
+        data: {
+            labels: ['व्यक्तित्वांक', 'सत्वांक', 'राजसांक', 'तामसांक', 'गडबडांक'],
+            datasets: [
+                {
+                  label: '# IdealGraph',
+                  data: [ 97, 144, 123, 161, 42],
+                  borderWidth: 2,
+                  backgroundColor: [
+                      'red',
+
+                  ],
+                  maxBarThickness:30,
+                },
+                {
+                    label: '# ActualGraph',
+                  data: [@ViewBag.vyaktitwank, @ViewBag.SatwikPercentage, @ViewBag.RajasPercentage, @ViewBag.TamasPercentage, @ViewBag.Gadabadank],
+                  borderWidth: 2,
+                  backgroundColor: [
+                      'blue',
+
+                  ],
+                  maxBarThickness:30,
+                },
+            ]
+              },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+
+</script>
+
+
+
+

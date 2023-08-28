@@ -1,0 +1,250 @@
+﻿@model TestManagement.Models.User
+
+@{
+    ViewBag.Title = "StartTest";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+    ///------------------------------------Next button----------------------------///
+    $(document).ready(function () {
+        $(".next").click(function () {
+            var $buttonClicked = $(this);
+            // var json = $buttonClicked.attr('data-id')
+            var Qid = $('#lblqueid').text();
+            var marksystem = $('#markingSystem').text();
+            var Type = $('#Type').text();
+            var BehaviorType = $('#BehaviorType').text();
+            var ans = $("input[name='mark']:checked").val();
+            $(".tab").prop('checked', false);
+            $.ajax({
+                type: 'POST',
+                url: "/Admin/Next",
+                dataType: "json",
+                data: { "Qid": Qid, "ans": ans, "marksystem": marksystem, "Type": Type, "BehaviorType": BehaviorType },
+                success: function (data) {
+                    if (data.status == "true") {
+                        $("#lblque").text(data.data)
+                        $("#lblqueid").text(data.data1)
+                        $("#markingSystem").text(data.markingSystem)
+                        $("#Type").text(data.Type)
+                        $("#BehaviorType").text(data.BehaviorType)
+                    }
+                    if (data.data1 == "1") {
+                        $(".previous").prop('disabled', true)
+                    }
+                    if (data.data1 == "48") {
+                        $(".next").prop('disabled', true)
+                        $(".submit").show();
+                    }
+                    if (data.data1 != "1")
+                    {
+                        $(".previous").prop('disabled', false)
+                    }
+
+                },
+                error: function (result) {
+                    swal({
+                        title: "You Need To Login",
+                        icon: "warning",
+                        button: "Ok",
+                    }).then(function () {
+                        window.location.href = "/Account/Register";
+                    })
+                }
+            });
+        });
+    });
+</script>
+<script type="text/javascript">
+    ///------------------------------------Submit button----------------------------///
+    $(document).ready(function () {
+        $(".submit").click(function () {
+            var $buttonClicked = $(this);
+            // var json = $buttonClicked.attr('data-id')
+            var Qid = $('#lblqueid').text();
+            var marksystem = $('#markingSystem').text();
+            var Type = $('#Type').text();
+            var BehaviorType = $('#BehaviorType').text();
+            var ans = $("input[name='mark']:checked").val();
+            $(".tab").prop('checked', false);
+            $.ajax({
+                type: 'POST',
+                url: "/Admin/Submit",
+                dataType: "json",
+                data: { "Qid": Qid, "ans": ans, "marksystem": marksystem, "Type": Type, "BehaviorType": BehaviorType },
+                success: function (data) {
+                    if (data.status == "true") {
+                        $("#lblque").text(data.data)
+                        $("#lblqueid").text(data.data1)
+                        $("#markingSystem").text(data.markingSystem)
+                        $("#Type").text(data.Type)
+                        $("#BehaviorType").text(data.BehaviorType)
+                    }
+                    if (data.data1 == "1") {
+                        $(".previous").prop('disabled', true)
+                    }
+                    if (data.data1 == "48") {
+                        $(".next").prop('disabled', true)
+                        $(".submit").show();
+                    }
+                    if (data.data1 != "1") {
+                        $(".previous").prop('disabled', false)
+                    }
+
+                },
+                error: function (result) {
+                    swal({
+                        title: "You Need To Login",
+                        icon: "warning",
+                        button: "Ok",
+                    }).then(function () {
+                        window.location.href = "/Account/Register";
+                    })
+                }
+            });
+        });
+    });
+</script>
+<script type="text/javascript">
+    ///------------------------------------Previous button----------------------------///
+    $(document).ready(function () {
+
+        $(".previous").click(function () {
+            var $buttonClicked = $(this);
+            // var json = $buttonClicked.attr('data-id')
+            var Qid = $('#lblqueid').text();
+            var marksystem = $('#markingSystem').text();
+            var Type = $('#Type').text();
+            var BehaviorType = $('#BehaviorType').text();
+            var ans = $("input[name='mark']:checked").val();
+            $(".tab").prop('checked', false);
+            $.ajax({
+                type: 'POST',
+                url: "/Admin/Previous",
+                dataType: "json",
+                data: { "Qid": Qid, "ans": ans, "marksystem": marksystem, "Type": Type, "BehaviorType": BehaviorType },
+                success: function (data) {
+                    if (data.status == "true") {
+                        $("#lblque").text(data.data)
+                        $("#lblqueid").text(data.data1)
+                        $("#markingSystem").text(data.markingSystem)
+                        $("#Type").text(data.Type)
+                        $("#BehaviorType").text(data.BehaviorType)
+                    }
+                    if (data.data1 == "1") {
+                        $(".previous").prop('disabled', true)
+                    }
+                    else if (data.data1 == "48") {
+                        $(".next").prop('disabled', true)
+                        $(".submit").show();
+                    }
+                    if (data.data1 != "1") {
+                        $(".previous").prop('disabled', false)
+                    }
+
+                },
+                error: function (result) {
+                    swal({
+                        title: "You Need To Login",
+                        icon: "warning",
+                        button: "Ok",
+                    }).then(function () {
+                        window.location.href = "/Account/Register";
+                    })
+                }
+            });
+        });
+    });
+</script>
+<script>
+    ///------------------------------------Next button----------------------------///
+    $(document).ready(function () {
+        var id = $(".next").attr("data-id");
+        $.get("/Admin/GetData", { que: id }, function (data) {
+            $("#lblque").text(data.data)
+            $("#lblqueid").text(data.data1)
+            $("#markingSystem").text(data.markingSystem)
+            $("#Type").text(data.Type)
+            $("#BehaviorType").text(data.BehaviorType)
+            if (data.data1 == "1") {
+                $(".previous").prop('disabled', true)
+            }
+            if (data.data1 != "1") {
+                $(".previous").prop('disabled', false)
+            }
+        })
+    })
+</script>
+
+<script>
+    ///------------------------------------Previous button----------------------------///
+    $(document).ready(function () {
+        var id = $(".previous").attr("data-id");
+        $.get("/Admin/GetData", { que: id }, function (data) {
+            $("#lblque").text(data.data)
+            $("#lblqueid").text(data.data1)
+            $("#markingSystem").text(data.markingSystem)
+            $("#Type").text(data.Type)
+            $("#BehaviorType").text(data.BehaviorType)
+            if (data.data1 == "1") {
+                $(".previous").prop('disabled', true)
+            }
+            if (data.data1 == "48") {
+                $(".next").prop('disabled', true)
+                $(".submit").show();
+            }
+            if (data.data1 != "1") {
+                $(".previous").prop('disabled', false)
+                $(".submit").show();
+            }
+        })
+    })
+</script>
+
+
+@using (Html.BeginForm("Submit", "Admin", FormMethod.Post))
+{
+    <h2>StartTest</h2>
+
+    @Html.AntiForgeryToken()
+    <div>
+        <label for="tab-1" style="color:black">@Model.StudentName</label>
+
+    </div>
+    <br />
+    <br />
+    <div style="margin-left:15px; float:left">
+        <label id="lblqueid" for="tab-1" style="color:black"></label> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        <label id="lblque" for="tab-1" style="color:black"></label>
+        <input type="hidden" id="markingSystem" name="custId" />
+        <input type="hidden" id="Type" name="custId" />
+        <input type="hidden" id="BehaviorType" name="custId" />
+
+    </div>
+
+    <br />
+    <br />
+
+    <div class="item form-group" style="margin-left:200px;">
+        <div class="col-md-6 col-sm-6">
+            <label><input type="radio" name="mark" class="tab" value="Always"> Always</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label><input type="radio" name="mark" class="tab" value="Frequently"> Frequently</label><br /><br />
+            <label><input type="radio" name="mark" class="tab" value="Often"> Often</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label><input type="radio" name="mark" class="tab" value="Never"> Never</label>
+        </div>
+    </div>
+    <br />
+
+    <div class="form-group" style="margin-left:400px">
+        <div class="col-md-offset-2 col-md-11">
+            <button style="background-color:lightblue" type="button" class="btn btn-default previous" data-id="@Model.QuestionId" data-dismiss="modal">PREVIOUS</button>
+
+            <button style="background-color:lightblue" type="button" class="btn btn-default next" data-id="@Model.QuestionId" data-dismiss="modal">NEXT</button>
+
+            <button style="background-color:lightblue;display:none;" type="button" class="btn btn-default submit" data-id="@Model.QuestionId" data-dismiss="modal">SUBMIT</button>
+        </div>
+    </div>}

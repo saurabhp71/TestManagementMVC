@@ -1,0 +1,63 @@
+﻿@model TestManagement.Models.User
+
+@{
+    ViewBag.Title = "StudentList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>StudentList</h2>
+<table class="table table-hover">
+    <tr style="background-color: #00B074;">
+        <th>
+            @Html.HiddenFor(model => model.StudentId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contactno)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Gender)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Age)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TestType)
+        </th>
+        <th>
+            Result
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.studentlist)
+    {
+        <tr>
+
+            <td>
+                @Html.HiddenFor(modelItem => item.StudentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contactno)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Age)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TestType)
+            </td>
+            <td>
+                <a href="@Url.Action("Result","Admin",new{ StudentId = item.StudentId })">Result</a>             
+            </td>
+        </tr>
+    }
+</table>
